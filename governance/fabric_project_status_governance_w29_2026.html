@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weekly Project Governance Report – Microsoft Fabric Implementation – Week 2026-W29</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+    color: #1a1a1a;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    line-height: 1.45;
+    font-size: 13.5px;
+  }
+
+  header.page-head {
+    background: linear-gradient(90deg, #0b3d91 0%, #1668c1 60%, #2b8ce6 100%);
+    color: #fff;
+    padding: 22px 28px 20px;
+    border-bottom: 3px solid #0a2a63;
+  }
+  header.page-head h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    letter-spacing: 0.4px;
+  }
+  header.page-head .subtitle {
+    margin: 0;
+    font-size: 12.5px;
+    opacity: 0.9;
+    font-style: italic;
+  }
+  header.page-head .meta-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 14px;
+    row-gap: 4px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    max-width: 760px;
+  }
+  header.page-head .meta-row span {
+    display: contents;
+  }
+  header.page-head .meta-row span b {
+    display: inline-block;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    opacity: 0.85;
+    font-weight: 700;
+    padding-top: 1px;
+  }
+  header.page-head .meta-row span.highlight b,
+  header.page-head .meta-row span.highlight {
+    opacity: 1;
+  }
+  header.page-head .meta-row span.highlight .val {
+    background: #ffd54a;
+    color: #17365d;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  }
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+  /* remove old inline-b styles above (kept for backward compat but overridden by grid rules) */
+
+  main {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+  }
+
+  section.card {
+    background: #fff;
+    border: 1px solid #d5dbe3;
+    border-radius: 6px;
+    padding: 16px 20px 18px;
+    margin: 0 0 16px;
+    box-shadow: 0 1px 2px rgba(10, 25, 55, 0.04);
+  }
+  section.card > h2 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: #0b3d91;
+    border-bottom: 1px solid #e2e6ec;
+    padding-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  section.card > h2 .num {
+    display: inline-block;
+    background: #0b3d91;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+  section.card h3 {
+    margin: 14px 0 6px;
+    font-size: 13px;
+    color: #17365d;
+  }
+
+  ul, ol { margin: 6px 0 6px 20px; padding: 0; }
+  ul li, ol li { margin: 3px 0; }
+
+  .cite {
+    color: #555;
+    font-family: "Consolas", "Menlo", monospace;
+    font-size: 11px;
+    background: #f0f3f8;
+    border: 1px solid #dfe4eb;
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* KPI tiles */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kpi {
+    background: #fff;
+    border: 1px solid #d5dbe3;
+    border-radius: 6px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 2px rgba(10, 25, 55, 0.04);
+  }
+  .kpi .label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #666;
+    font-weight: 600;
+  }
+  .kpi .value {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 4px;
+    color: #0b3d91;
+  }
+  .kpi .sub { font-size: 11px; color: #666; }
+
+  /* RAG pills */
+  .rag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+  .rag.green  { background:#e3f5e6; color:#0f6b2a; border-color:#b7e2be; }
+  .rag.amber  { background:#fff4d6; color:#8a5a00; border-color:#f4dc9a; }
+  .rag.red    { background:#fbe4e4; color:#a01919; border-color:#f4b6b6; }
+  .rag.info   { background:#e6efff; color:#0b3d91; border-color:#c7d8f5; }
+  .rag.gap    { background:#eee; color:#444; border-color:#d0d0d0; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 12.5px;
+  }
+  th, td {
+    border: 1px solid #dfe4eb;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #eef2f8;
+    color: #17365d;
+    font-weight: 700;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:nth-child(even) td { background: #fafbfd; }
+
+  /* JSON footer */
+  pre.json {
+    background: #0b1e3a;
+    color: #dbe6ff;
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 11.5px;
+    line-height: 1.45;
+    font-family: "Consolas", "Menlo", monospace;
+    margin: 0;
+  }
+  pre.json .k { color:#8fd0ff; }
+  pre.json .s { color:#ffd28f; }
+  pre.json .n { color:#c6f6b7; }
+  pre.json .b { color:#f0a3ff; }
+
+  footer.page-foot {
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+    padding: 14px 10px 24px;
+    border-top: 1px solid #d5dbe3;
+    margin-top: 6px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    header.page-head { background: #0b3d91 !important; }
+    section.card, .kpi { box-shadow: none; break-inside: avoid; }
+    main { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <h1>Weekly Project Governance &amp; Status Report</h1>
+  <p class="subtitle">Program Athena · Enterprise Microsoft Fabric Implementation · Generated by WeekPilot Agent (M365 grounded)</p>
+  <div class="meta-row">
+    <span><b>ISO Week</b><span class="val">2026-W29</span></span>
+    <span><b>Reporting Period</b><span class="val">2026-07-13 → 2026-07-17 (Mon–Fri)</span></span>
+    <span><b>Project</b><span class="val">Microsoft Fabric Implementation – Program Athena</span></span>
+    <span><b>Report ID</b><span class="val">WP-RPT-2026W29-ATHENA</span></span>
+    <span><b>Generated</b><span class="val">2026-07-17T17:30:00Z</span></span>
+    <span><b>Reviewed by</b><span class="val">Samundra Sharma – Program Manager (Human-in-the-loop)</span></span>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPI tiles -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Overall Health</div>
+      <div class="value"><span class="rag amber">Amber</span></div>
+      <div class="sub">Downgraded from Green due to Purview data lineage gap</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Schedule</div>
+      <div class="value"><span class="rag green">On Track</span></div>
+      <div class="sub">Wave 2 (Finance) semantic model on plan</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Budget</div>
+      <div class="value"><span class="rag green">On Track</span></div>
+      <div class="sub">Consumption YTD 62% of forecast</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Scope</div>
+      <div class="value"><span class="rag amber">At Risk</span></div>
+      <div class="sub">Real-time Intelligence CR pending SteerCo</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Risks Open</div>
+      <div class="value">7 <span class="rag red" style="font-size:9px;vertical-align:middle;">2 High</span></div>
+      <div class="sub">Prev. week: 6 (1 High)</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Actions Open</div>
+      <div class="value">14</div>
+      <div class="sub">4 due next week · 2 overdue</div>
+    </div>
+  </div>
+
+  <!-- Stakeholders / RACI -->
+  <section class="card">
+    <h2><span class="num">S</span>Stakeholders &amp; Governance Roles</h2>
+    <p style="margin:2px 0 8px;color:#555;font-size:12px;">
+      Stakeholders defined per Program Athena Governance Charter v1.3
+      <span class="cite">[source: Athena_Governance_Charter_v1.3.docx#2026-06-04]</span>.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%">Role</th>
+          <th style="width:22%">Name</th>
+          <th style="width:22%">Organisation</th>
+          <th style="width:8%">RACI</th>
+          <th>Reporting Interest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Executive Sponsor</td><td>Dr. Katharina Vogel</td><td>Client</td><td>A</td><td>Business value realisation, budget, strategic direction</td></tr>
+        <tr><td>Steering Committee Chair</td><td>Marcus Reinhardt</td><td>Client</td><td>A</td><td>Scope, cross-portfolio dependencies, escalations</td></tr>
+        <tr><td>Program Manager</td><td>Samir Khan</td><td>Delivery Team</td><td>R</td><td>Delivery, RAID, weekly governance</td></tr>
+        <tr><td>Delivery Lead (Data Platform)</td><td>Elena Ricci</td><td>Data &amp; AI Team</td><td>R</td><td>Fabric workspaces, semantic models, medallion pipelines</td></tr>
+        <tr><td>Data Platform Architect</td><td>Jonas Weber</td><td>Architecture Team</td><td>C</td><td>Fabric capacity, OneLake domains, Direct Lake design</td></tr>
+        <tr><td>Fabric Developer (Lead)</td><td>Nikhil Menon</td><td>Data Platform Team</td><td>R</td><td>Lakehouses, Spark notebooks, Data Factory pipelines, shortcuts</td></tr>
+        <tr><td>Fabric Data Engineer</td><td>Mateusz Kowalski</td><td>Data Platform Team</td><td>R</td><td>Medallion (bronze/silver/gold) ingestion, PySpark, Delta tables</td></tr>
+        <tr><td>Power BI Developer (Lead)</td><td>Chloé Martin</td><td>Data Platform Team</td><td>R</td><td>Report authoring, dashboards, workspace config, deployment pipelines</td></tr>
+        <tr><td>Power BI Developer</td><td>Ravi Iyer</td><td>Data Platform Team</td><td>R</td><td>Paginated reports, RLS/OLS implementation, theme &amp; UX standards</td></tr>
+        <tr><td>DAX Expert / Semantic Model Lead</td><td>David Bergström</td><td>Data Platform Team</td><td>R</td><td>Semantic models, DAX optimisation, Direct Lake tuning, calc groups</td></tr>
+        <tr><td>Real-Time Intelligence Developer</td><td>Yuki Tanaka</td><td>Data Platform Team</td><td>C</td><td>Event Streams, KQL databases, Eventhouse, Activator (Wave 3)</td></tr>
+        <tr><td>Security &amp; Compliance Lead</td><td>Rafael Costa</td><td>Client – InfoSec</td><td>C</td><td>Purview, sensitivity labels, data residency</td></tr>
+        <tr><td>Microsoft Partner Success Manager</td><td>Hannah Becker</td><td>Microsoft</td><td>I</td><td>Fabric capacity F64 sizing, roadmap alignment</td></tr>
+        <tr><td>Change &amp; Adoption Lead</td><td>Léa Dupont</td><td>Delivery Team</td><td>R</td><td>Training, adoption metrics, communications</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 1. Executive Summary -->
+  <section class="card">
+    <h2><span class="num">1</span>Executive Summary</h2>
+    <ul>
+      <li><b>Wave 2 semantic model delivered</b> and validated by the DAX / Power BI development team; Direct Lake mode enabled on the OneLake gold layer. Technical impact: dataset refresh time reduced from ~28 min (Import) to sub-second (Direct Lake). <span class="cite">[source: Wave2_UAT_Signoff.pdf#2026-07-16]</span></li>
+      <li><b>Fabric capacity F64 provisioned</b> in West Europe region, replacing the interim F32 SKU; capacity autoscale policy approved by SteerCo. <span class="cite">[source: Steering Committee Meeting#2026-07-14]</span></li>
+      <li><b>Purview data lineage integration blocker</b>: Fabric-to-Purview scan is failing on the Wave 2 Lakehouse SQL endpoint. Governance impact: gold-layer datasets cannot be certified under the data catalog policy. <span class="cite">[source: Teams Channel – Athena-Governance#2026-07-15]</span></li>
+      <li><b>Change Request CR-014 (Real-Time Intelligence workstream)</b> raised by the Fabric Developer team; scope, cost and dependency impact assessment to be tabled at the next SteerCo (2026-07-21). <span class="cite">[source: RAID_Log.xlsx#modified-2026-07-16]</span></li>
+      <li><b>Adoption tracking gap</b>: Power BI usage telemetry for the Wave 2 workspace is missing for 2026-07-13 due to tenant-level audit log ingestion delay. Evidence not sufficient to confirm week-over-week adoption trend. <span class="cite">[source: Adoption_Dashboard.pbix#modified-2026-07-17]</span></li>
+    </ul>
+  </section>
+
+  <!-- 2. Overall Project Health -->
+  <section class="card">
+    <h2><span class="num">2</span>Overall Project Health</h2>
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th style="width:14%">Status</th><th>Rationale</th><th style="width:22%">Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Overall</td><td><span class="rag amber">Amber</span></td><td>Technical delivery on plan but a High-severity governance blocker (Purview lineage) is unresolved and affects Wave 2 certification.</td><td><span class="cite">[SteerCo#2026-07-14]</span></td></tr>
+        <tr><td>Schedule</td><td><span class="rag green">Green</span></td><td>Wave 2 UAT closed on 2026-07-16 as planned. Wave 3 discovery started on 2026-07-15.</td><td><span class="cite">[Wave2_UAT_Signoff.pdf#2026-07-16]</span></td></tr>
+        <tr><td>Cost</td><td><span class="rag green">Green</span></td><td>F64 provisioning within approved envelope; consumption YTD at 62% of forecast.</td><td><span class="cite">[Fabric_Cost_Report.xlsx#2026-07-17]</span></td></tr>
+        <tr><td>Scope</td><td><span class="rag amber">Amber</span></td><td>CR-014 (Real-time Intelligence) may extend Wave 3 by 2 sprints; SteerCo decision pending.</td><td><span class="cite">[RAID_Log.xlsx#2026-07-16]</span></td></tr>
+        <tr><td>Quality</td><td><span class="rag green">Green</span></td><td>Wave 2 semantic model passed 47/47 DAX regression tests; Best Practice Analyzer (Tabular Editor) clean.</td><td><span class="cite">[UAT_Test_Results.xlsx#2026-07-16]</span></td></tr>
+        <tr><td>Risk</td><td><span class="rag amber">Amber</span></td><td>2 High-severity risks open (Purview lineage, capacity contention with existing tenant).</td><td><span class="cite">[RAID_Log.xlsx#2026-07-16]</span></td></tr>
+        <tr><td>Governance / Compliance</td><td><span class="rag red">Red</span></td><td>Gold-layer datasets cannot be certified until Purview lineage restored – blocks Data Catalog policy.</td><td><span class="cite">[Athena-Governance#2026-07-15]</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 3. Key Meetings -->
+  <section class="card">
+    <h2><span class="num">3</span>Key Meetings &amp; Governance Discussions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th><th>Meeting</th><th>Organizer</th><th style="width:8%">Transcript</th><th>Key Topics</th><th>Decisions / Actions</th><th style="width:18%">Evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-07-13</td>
+          <td>Program Athena – Weekly Delivery Stand-up</td>
+          <td>Samir Khan</td>
+          <td>Yes</td>
+          <td>Wave 2 UAT status; F64 cutover plan; Purview scan errors</td>
+          <td>Assigned lineage triage to Data Platform team (see A-2026W29-03)</td>
+          <td><span class="cite">[Stand-up_Transcript#2026-07-13]</span></td>
+        </tr>
+        <tr>
+          <td>2026-07-14</td>
+          <td>Steering Committee (Bi-weekly)</td>
+          <td>Marcus Reinhardt</td>
+          <td>Yes</td>
+          <td>F64 capacity approval, CR-014 pre-read, Wave 2 UAT go/no-go</td>
+          <td>Decision D-2026W29-01 (F64 approved); D-2026W29-02 (Wave 2 UAT go)</td>
+          <td><span class="cite">[SteerCo_Recap#2026-07-14]</span></td>
+        </tr>
+        <tr>
+          <td>2026-07-15</td>
+          <td>Wave 3 Discovery Workshop – Real-Time Intelligence &amp; Event Streams</td>
+          <td>Elena Ricci</td>
+          <td>Yes</td>
+          <td>Event Streams, KQL databases, Digital Twin integration options</td>
+          <td>Draft Real-time Intelligence architecture; feeds CR-014</td>
+          <td><span class="cite">[Wave3_Discovery_Recap#2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>2026-07-15</td>
+          <td>Data Governance Sync</td>
+          <td>Rafael Costa</td>
+          <td>Yes</td>
+          <td>Purview lineage failure root cause; sensitivity labels for Finance</td>
+          <td>Ticket opened with Microsoft support (SR-2610715-Q)</td>
+          <td><span class="cite">[Athena-Governance#2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>2026-07-16</td>
+          <td>Wave 2 Technical Sign-off Review</td>
+          <td>David Bergström</td>
+          <td>Yes</td>
+          <td>DAX regression results, Direct Lake performance, Best Practice Analyzer, deployment pipeline</td>
+          <td>Decision D-2026W29-03 (Wave 2 technical sign-off accepted)</td>
+          <td><span class="cite">[Wave2_UAT_Signoff.pdf#2026-07-16]</span></td>
+        </tr>
+        <tr>
+          <td>2026-07-17</td>
+          <td>Change &amp; Adoption Weekly</td>
+          <td>Léa Dupont</td>
+          <td>No</td>
+          <td>DP-500 training uptake, comms plan for Wave 2 go-live</td>
+          <td>Comms pack for Wave 2 rollout to be issued 2026-07-20</td>
+          <td><span class="cite">[Teams – Adoption channel#2026-07-17]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 4. Decisions -->
+  <section class="card">
+    <h2><span class="num">4</span>Decisions Made</h2>
+    <table>
+      <thead>
+        <tr><th style="width:10%">ID</th><th style="width:12%">Date</th><th>Decision</th><th style="width:16%">Owner</th><th>Impact / Follow-up</th><th style="width:18%">Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>D-2026W29-01</td>
+          <td>2026-07-14</td>
+          <td>Approve migration from Fabric capacity F32 to F64 (West Europe) with autoscale enabled.</td>
+          <td>Steering Committee (Chair: M. Reinhardt)</td>
+          <td>Provisioning scheduled 2026-07-19; incremental cost within approved envelope.</td>
+          <td><span class="cite">[SteerCo_Recap#2026-07-14]</span></td>
+        </tr>
+        <tr>
+          <td>D-2026W29-02</td>
+          <td>2026-07-14</td>
+          <td>Proceed with Wave 2 UAT go decision, contingent on Purview lineage remediation before Data Catalog certification.</td>
+          <td>Steering Committee</td>
+          <td>Certification held in "Pending Governance" state until R-2026-005 closed.</td>
+          <td><span class="cite">[SteerCo_Recap#2026-07-14]</span></td>
+        </tr>
+        <tr>
+          <td>D-2026W29-03</td>
+          <td>2026-07-16</td>
+          <td>Accept Wave 2 semantic model technical sign-off (DAX regression 47/47 pass, Direct Lake validated).</td>
+          <td>David Bergström (DAX Expert) &amp; Chloé Martin (Power BI Dev Lead)</td>
+          <td>Enables promotion via deployment pipeline (DEV→TEST→PROD) from 2026-07-20.</td>
+          <td><span class="cite">[Wave2_UAT_Signoff.pdf#2026-07-16]</span></td>
+        </tr>
+        <tr>
+          <td>D-2026W29-04</td>
+          <td>2026-07-15</td>
+          <td>Adopt medallion domain naming convention <code>athena.&lt;domain&gt;.&lt;layer&gt;</code> across all OneLake workspaces.</td>
+          <td>Jonas Weber (Architect)</td>
+          <td>Retro-rename planned for Wave 1 workspaces in Sprint 14.</td>
+          <td><span class="cite">[Wave3_Discovery_Recap#2026-07-15]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. Deliverables and File Changes -->
+  <section class="card">
+    <h2><span class="num">5</span>Deliverables &amp; SharePoint File Changes</h2>
+    <table>
+      <thead>
+        <tr><th>Artifact</th><th>Location</th><th>Change</th><th>Modified</th><th>By</th><th>Status</th><th style="width:18%">Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wave2_UAT_Signoff.pdf</td>
+          <td>SharePoint / Athena / 03-Delivery / Wave2</td>
+          <td>Created &amp; signed</td>
+          <td>2026-07-16</td>
+          <td>David Bergström</td>
+          <td>Signed off</td>
+          <td><span class="cite">[SPO#2026-07-16]</span></td>
+        </tr>
+        <tr>
+          <td>Fabric_Capacity_F64_ChangeRecord.docx</td>
+          <td>SharePoint / Athena / 04-Architecture</td>
+          <td>Approved (v1.0)</td>
+          <td>2026-07-14</td>
+          <td>Jonas Weber</td>
+          <td>Approved</td>
+          <td><span class="cite">[SPO#2026-07-14]</span></td>
+        </tr>
+        <tr>
+          <td>OneLake_Domain_Model_v2.pptx</td>
+          <td>SharePoint / Athena / 04-Architecture</td>
+          <td>Major revision (v2.0)</td>
+          <td>2026-07-15</td>
+          <td>Jonas Weber</td>
+          <td>Under review</td>
+          <td><span class="cite">[SPO#2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>Wave2_Semantic_Model.pbip</td>
+          <td>Git repo / athena-fabric / semantic-models / wave2</td>
+          <td>Merged PR #218 (Direct Lake enabled, calc groups refactor)</td>
+          <td>2026-07-15</td>
+          <td>David Bergström</td>
+          <td>Production ready</td>
+          <td><span class="cite">[GitHub PR#218 – 2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>RAID_Log.xlsx</td>
+          <td>SharePoint / Athena / 02-Governance</td>
+          <td>Updated (7 open risks, CR-014 added)</td>
+          <td>2026-07-16</td>
+          <td>Samir Khan</td>
+          <td>Current</td>
+          <td><span class="cite">[SPO#2026-07-16]</span></td>
+        </tr>
+        <tr>
+          <td>CR-014_RealtimeIntelligence.docx</td>
+          <td>SharePoint / Athena / 05-Change</td>
+          <td>Draft (v0.2)</td>
+          <td>2026-07-17</td>
+          <td>Yuki Tanaka</td>
+          <td>Awaiting SteerCo</td>
+          <td><span class="cite">[SPO#2026-07-17]</span></td>
+        </tr>
+        <tr>
+          <td>Adoption_Dashboard.pbix</td>
+          <td>Power BI / Athena – Adoption workspace</td>
+          <td>Refresh (partial – 4/5 days)</td>
+          <td>2026-07-17</td>
+          <td>Léa Dupont</td>
+          <td>Partial (see §12)</td>
+          <td><span class="cite">[PBI-refresh#2026-07-17]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 6. Risks / Blockers -->
+  <section class="card">
+    <h2><span class="num">6</span>Risks, Issues &amp; Blockers</h2>
+    <table>
+      <thead>
+        <tr><th style="width:10%">ID</th><th>Description</th><th style="width:8%">Type</th><th style="width:9%">Severity</th><th style="width:14%">Owner</th><th style="width:10%">Target</th><th>Mitigation</th><th style="width:14%">Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>R-2026-005</td>
+          <td>Purview lineage scan failing on Wave 2 Lakehouse SQL endpoint – blocks dataset certification.</td>
+          <td>Blocker</td>
+          <td><span class="rag red">High</span></td>
+          <td>Rafael Costa</td>
+          <td>2026-07-22</td>
+          <td>Microsoft support case SR-2610715-Q raised 2026-07-15; workaround via manual lineage export.</td>
+          <td><span class="cite">[Athena-Governance#2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-006</td>
+          <td>Potential Fabric capacity contention with tenant-shared Data Science workload after F64 cutover.</td>
+          <td>Risk</td>
+          <td><span class="rag red">High</span></td>
+          <td>Jonas Weber</td>
+          <td>2026-07-24</td>
+          <td>Workload isolation via separate workspace; autoscale rules under review.</td>
+          <td><span class="cite">[SteerCo_Recap#2026-07-14]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-007</td>
+          <td>Wave 3 scope may exceed budget envelope if CR-014 is approved without offsetting deferrals.</td>
+          <td>Risk</td>
+          <td><span class="rag amber">Medium</span></td>
+          <td>Samir Khan</td>
+          <td>2026-07-21</td>
+          <td>Cost impact assessment tabled for SteerCo 2026-07-21.</td>
+          <td><span class="cite">[RAID_Log.xlsx#2026-07-16]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-008</td>
+          <td>DP-500 &amp; Fabric certification uptake in the Data Platform team is 42% (target 70%) – skills risk for Wave 2 hand-over.</td>
+          <td>Risk</td>
+          <td><span class="rag amber">Medium</span></td>
+          <td>Léa Dupont</td>
+          <td>2026-07-31</td>
+          <td>Additional live sessions scheduled 2026-07-22 and 2026-07-29.</td>
+          <td><span class="cite">[Teams – Adoption#2026-07-17]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-009</td>
+          <td>Data residency: EU-only constraint not yet confirmed for a 3rd-party Event Stream connector (Wave 3).</td>
+          <td>Risk</td>
+          <td><span class="rag amber">Medium</span></td>
+          <td>Rafael Costa</td>
+          <td>2026-07-28</td>
+          <td>Vendor questionnaire issued; pending response.</td>
+          <td><span class="cite">[Wave3_Discovery_Recap#2026-07-15]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-010</td>
+          <td>Adoption telemetry gap due to tenant audit log ingestion delay on 2026-07-13.</td>
+          <td>Issue</td>
+          <td><span class="rag green">Low</span></td>
+          <td>Léa Dupont</td>
+          <td>2026-07-24</td>
+          <td>Backfill script to be run once audit logs available; note evidence gap in §12.</td>
+          <td><span class="cite">[PBI-refresh#2026-07-17]</span></td>
+        </tr>
+        <tr>
+          <td>R-2026-011</td>
+          <td>Direct Lake mode may fall back to DirectQuery for very large fact tables (&gt;500M rows) without partitioning strategy.</td>
+          <td>Risk</td>
+          <td><span class="rag green">Low</span></td>
+          <td>Elena Ricci</td>
+          <td>2026-08-07</td>
+          <td>Partitioning POC planned in Sprint 15.</td>
+          <td><span class="cite">[UAT_Test_Results.xlsx#2026-07-16]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 7. Open Actions -->
+  <section class="card">
+    <h2><span class="num">7</span>Open Actions &amp; Owners</h2>
+    <table>
+      <thead>
+        <tr><th style="width:12%">ID</th><th>Action</th><th style="width:16%">Owner</th><th style="width:10%">Due</th><th style="width:10%">Status</th><th style="width:18%">Source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A-2026W29-01</td><td>Provision Fabric F64 capacity in West Europe with autoscale policy.</td><td>Jonas Weber</td><td>2026-07-19</td><td>In progress</td><td><span class="cite">[SteerCo#2026-07-14]</span></td></tr>
+        <tr><td>A-2026W29-02</td><td>Publish Wave 2 rollout comms pack to end-user community.</td><td>Léa Dupont</td><td>2026-07-20</td><td>Draft ready</td><td><span class="cite">[Adoption#2026-07-17]</span></td></tr>
+        <tr><td>A-2026W29-03</td><td>Investigate Purview lineage scan failure and provide root cause.</td><td>Rafael Costa</td><td>2026-07-21</td><td>Open (MS support)</td><td><span class="cite">[Governance#2026-07-15]</span></td></tr>
+        <tr><td>A-2026W29-04</td><td>Complete cost &amp; schedule impact assessment for CR-014.</td><td>Samir Khan</td><td>2026-07-20</td><td>In progress</td><td><span class="cite">[RAID#2026-07-16]</span></td></tr>
+        <tr><td>A-2026W29-05</td><td>Confirm data residency of 3rd-party Event Stream connector.</td><td>Rafael Costa</td><td>2026-07-28</td><td>Awaiting vendor</td><td><span class="cite">[Wave3#2026-07-15]</span></td></tr>
+        <tr><td>A-2026W29-06</td><td>Rename Wave 1 workspaces to <code>athena.&lt;domain&gt;.&lt;layer&gt;</code> convention.</td><td>Elena Ricci</td><td>2026-08-07</td><td>Planned</td><td><span class="cite">[Wave3#2026-07-15]</span></td></tr>
+        <tr><td>A-2026W29-07</td><td>Backfill Power BI adoption telemetry for 2026-07-13.</td><td>Léa Dupont</td><td>2026-07-24</td><td>Open</td><td><span class="cite">[PBI-refresh#2026-07-17]</span></td></tr>
+        <tr><td>A-2026W28-14</td><td>Publish OneLake domain model v2 for architecture review.</td><td>Jonas Weber</td><td>2026-07-17</td><td><span class="rag amber">Overdue</span> (v2 in review)</td><td><span class="cite">[SPO#2026-07-15]</span></td></tr>
+        <tr><td>A-2026W28-09</td><td>Add sensitivity labels to Finance semantic model.</td><td>Rafael Costa</td><td>2026-07-15</td><td><span class="rag amber">Overdue</span></td><td><span class="cite">[Governance#2026-07-15]</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 8. Dependencies -->
+  <section class="card">
+    <h2><span class="num">8</span>Dependencies &amp; Cross-Team Coordination</h2>
+    <ul>
+      <li><b>Microsoft (Vendor):</b> Support case SR-2610715-Q for Purview lineage – required to unblock R-2026-005. <span class="cite">[MS-Support#2026-07-15]</span></li>
+      <li><b>InfoSec (Compliance):</b> Sensitivity label taxonomy approval blocking A-2026W28-09. <span class="cite">[Governance#2026-07-15]</span></li>
+      <li><b>Enterprise Architecture Review Board:</b> Approval of OneLake domain model v2 required before Wave 3 build starts. <span class="cite">[SPO#2026-07-15]</span></li>
+      <li><b>Data Science Platform team (internal):</b> Coordination on shared tenant capacity to prevent contention post F64 cutover. <span class="cite">[SteerCo_Recap#2026-07-14]</span></li>
+      <li><b>DevOps / Git repo owners:</b> Deployment pipeline (DEV→TEST→PROD) permissions required for Power BI Developers to promote Wave 2 artefacts. <span class="cite">[GitHub PR#218]</span></li>
+      <li><b>3rd-party Telemetry Vendor:</b> Data residency confirmation for Event Stream connector – Wave 3 dependency (owned by Real-Time Intelligence Developer). <span class="cite">[Wave3_Discovery_Recap#2026-07-15]</span></li>
+    </ul>
+  </section>
+
+  <!-- 9. Look-ahead -->
+  <section class="card">
+    <h2><span class="num">9</span>Next Week Look-Ahead (2026-W30, 2026-07-20 → 2026-07-24)</h2>
+    <ul>
+      <li>Wave 2 <b>production deployment</b> via deployment pipeline DEV→TEST→PROD (2026-07-20, owned by Chloé Martin).</li>
+      <li><b>Fabric F64 capacity cutover</b> in West Europe (2026-07-19, weekend change window – evidence in Change Record CHG-2026-118). <span class="cite">[SPO#2026-07-14]</span></li>
+      <li><b>Steering Committee</b> (2026-07-21): CR-014 decision, F64 post-cutover review, Purview blocker status.</li>
+      <li><b>Wave 3 architecture review</b> with EARB (2026-07-23) – Real-Time Intelligence design walkthrough.</li>
+      <li><b>DAX performance tuning workshop</b> (2026-07-22) led by David Bergström; partitioning POC kick-off for R-2026-011.</li>
+      <li>Target closure of overdue actions <b>A-2026W28-14</b> and <b>A-2026W28-09</b>.</li>
+    </ul>
+  </section>
+
+  <!-- 10. Draft Timesheet -->
+  <section class="card">
+    <h2><span class="num">10</span>Draft Timesheet / Effort Evidence</h2>
+    <p style="margin:2px 0 8px;color:#555;font-size:12px;">
+      Hours derived from Outlook calendar meeting durations, meeting transcripts and explicit time entries only. Non-meeting effort marked "Evidence not sufficient" unless supported.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Project / Workstream</th><th>Evidence-based activity</th><th class="num" style="width:14%">Suggested hours</th><th style="width:26%">Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Athena – Governance</td><td>Weekly stand-up, SteerCo, Governance sync</td><td class="num">5.0</td><td><span class="cite">[Outlook#2026-07-13..15]</span></td></tr>
+        <tr><td>Athena – Wave 2 Delivery</td><td>Technical sign-off review, semantic model PR #218 merge, DAX regression</td><td class="num">4.0</td><td><span class="cite">[Outlook + PR#218]</span></td></tr>
+        <tr><td>Athena – Wave 3 Discovery</td><td>Real-Time Intelligence architecture workshop</td><td class="num">3.5</td><td><span class="cite">[Outlook#2026-07-15]</span></td></tr>
+        <tr><td>Athena – Change &amp; Adoption</td><td>Adoption weekly + comms pack review</td><td class="num">1.5</td><td><span class="cite">[Outlook#2026-07-17]</span></td></tr>
+        <tr><td>Athena – Architecture</td><td>OneLake domain model v2 authoring</td><td class="num">Evidence not sufficient</td><td><span class="cite">[SPO metadata only]</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><th colspan="2" style="text-align:right;">Total (evidenced)</th><th class="num">14.0</th><th></th></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- 11. Governance Attention -->
+  <section class="card">
+    <h2><span class="num">11</span>Governance Attention Required</h2>
+    <ul>
+      <li><span class="rag red">Escalation</span> <b>Purview lineage blocker (R-2026-005)</b> – requires Executive Sponsor awareness; certification of Finance datasets held.</li>
+      <li><span class="rag amber">Decision needed</span> <b>CR-014 (Real-time Intelligence)</b> – SteerCo decision on scope, cost and schedule impact required 2026-07-21.</li>
+      <li><span class="rag amber">Approval missing</span> Sensitivity label taxonomy from InfoSec – overdue since 2026-07-15 (A-2026W28-09).</li>
+      <li><span class="rag amber">Material risk</span> Capacity contention risk (R-2026-006) after F64 cutover – SteerCo review at next session.</li>
+      <li><span class="rag info">Conflicting information</span> Adoption metrics for 2026-07-13 (see §12) – do not use for KPI reporting until backfilled.</li>
+    </ul>
+  </section>
+
+  <!-- 12. Evidence Gaps -->
+  <section class="card">
+    <h2><span class="num">12</span>Evidence Gaps</h2>
+    <ul>
+      <li><span class="rag gap">Gap</span> Adoption telemetry missing for 2026-07-13 (audit log ingestion delay). <span class="cite">[PBI-refresh#2026-07-17]</span></li>
+      <li><span class="rag gap">Gap</span> Change &amp; Adoption Weekly (2026-07-17) has <b>no transcript</b>; summary based on Teams channel notes only.</li>
+      <li><span class="rag gap">Gap</span> SharePoint change history for <code>OneLake_Domain_Model_v2.pptx</code> incomplete (author metadata missing for one revision).</li>
+      <li><span class="rag gap">Gap</span> No Planner data connected for Wave 3 workstream – action list derived from meeting transcripts only.</li>
+      <li><span class="rag gap">Gap</span> Vendor response for 3rd-party Event Stream data residency (R-2026-009) not yet received.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="page-foot">
+  Generated by WeekPilot · Microsoft 365 grounded weekly project governance reporting agent · Human-in-the-loop reviewed ·
+  Sensitivity: Internal – Program Athena Governance
+</footer>
+
+</body>
+</html>
