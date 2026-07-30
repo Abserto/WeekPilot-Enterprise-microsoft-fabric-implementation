@@ -1,5 +1,5 @@
 ================================================================================
-PROMPT GALLERY
+PROMPT GALLERY for WeekPilot Agent
 Program Athena - Enterprise Microsoft Fabric Implementation
 Weekly Project Governance & Status Reporting
 Version: 1.0   |   Owner: Samundra Sharma (Program Manager)
