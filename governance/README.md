@@ -15,13 +15,12 @@ Reviewed by:  Samundra Sharma - Program Manager (Human-in-the-loop)
 PURPOSE OF THIS DOCUMENT
 ------------------------
 This text file describes every visible component of the HTML report and links
-each component back to the design principles of the WeekPilot Agent as defined
-in the University Assignment:
+each component back to the design principles of the WeekPilot Agent:
 
   "AI Excellence with Creative Prompting Techniques - WeekPilot: A Weekly
    Project Governance and Status Reporting Assistant grounded in Microsoft 365."
 
-The assignment defines WeekPilot as a Microsoft 365 grounded, RAG-based,
+ WeekPilot as a Microsoft 365 grounded, RAG-based,
 prompt-engineered reporting assistant that produces evidence-based, executive-
 ready weekly governance reports for enterprise projects. Every component of
 the HTML file is a physical manifestation of one of those principles.
