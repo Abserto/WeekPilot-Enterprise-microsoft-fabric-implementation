@@ -1,6 +1,6 @@
 ## Reports
 
-[Open Governance Report](https://abserto.github.io/WeekPilot-Enterprise-microsoft-fabric-implementation/governance/fabric__w29_2026.html
+[Open Governance Report]( https://abserto.github.io/WeekPilot-Enterprise-microsoft-fabric-implementation/governance/fabric__w29_2026.html
  
  # Governance
 ================================================================================
